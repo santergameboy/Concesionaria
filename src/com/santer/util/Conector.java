@@ -8,29 +8,30 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Conector {
-
-    private static Connection connection =null ;
+    private static Connection connection = null;
 
     public static Connection getConnection(){
-        if(connection != null){
+        if (connection!=null){
             return connection;
         }else {
             try {
                 Properties properties = new Properties();
                 properties.load(new FileInputStream("bd.properties"));
-                String driver=properties.getProperty("driver");
-                String url= properties.getProperty("url");
+
+                String driver = properties.getProperty("driver");
+                String url = properties.getProperty("url");
                 String user = properties.getProperty("user");
                 String password = properties.getProperty("password");
 
-                Class.forName(driver); //carga el driver
+                Class.forName(driver);
+
                 connection = DriverManager.getConnection(url,user,password);
             } catch (IOException e) {
-                System.out.println("Error en el archivo de propiedades:"+e.getMessage());
+                System.out.println("ERROR EN EL ARCHIVO DE PROPIEDADES"+ e.getMessage());
             } catch (ClassNotFoundException e) {
-                System.out.println("Error al cargar el driver"+e.getMessage());
-            } catch (SQLException throwables) {
-                System.out.println("error de conexion a la base de datos "+throwables.getMessage());
+                System.out.println("ERROR AL CARGAR EL DRIVER"+e.getMessage());
+            } catch (SQLException e) {
+                System.out.println("ERRORE EN LA CONEXION DE LA BD"+ e.getMessage());
             }
         }
         return connection;
